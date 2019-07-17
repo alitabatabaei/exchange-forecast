@@ -1,13 +1,5 @@
 @import "../scss/mixins";
 
-main {
-    // background-color: #eee;
-    // border: 1px solid red;
-    > section {
-        padding: 1rem;
-    }
-}
-
 .logo {
     @include square(2rem);
     margin-right: .5rem;
