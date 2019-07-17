@@ -10,13 +10,14 @@ import { Subscription, Observable } from 'rxjs';
 export class ForecastComponent implements OnInit {
 
   today = new Date();
-
+  currencies: Array<string>;
   loading: Observable<boolean>;
 
   constructor(
     private exRates: ExchangeRatesService,
   ) {
-    this.loading = this.exRates.isLoading$;
+    this.loading = exRates.isLoading$;
+    this.currencies = exRates.currencies;
   }
 
   ngOnInit() {

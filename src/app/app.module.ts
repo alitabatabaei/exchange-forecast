@@ -5,18 +5,22 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCoreModule } from './modules/mat-core/mat-core.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ForecastComponent } from './components/forecast/forecast.component';
+import { ForcastFormComponent } from './components/forcast-form/forcast-form.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ForecastComponent
+    ForecastComponent,
+    ForcastFormComponent
   ],
   imports: [
     BrowserModule,
     MatCoreModule,
     HttpClientModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule
   ],
   providers: [],
