@@ -8,9 +8,9 @@
             <mat-form-field color="accent" appearance="outline">
                 <mat-label>
                     Amount
-                    <sup>({{crForm.get('base').value.code}})</sup>
+                    <span>({{crForm.get('base').value.name}})</span>
                 </mat-label>
-                <input matInput type="text" formControlName="amount" mask="comma_separator.2" [suffix]="' ' + crForm.get('base').value.symbol">
+                <input matInput type="text" formControlName="amount" mask="comma_separator.2">
             </mat-form-field>
 
             <div class="currencies">
@@ -23,7 +23,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <button mat-icon-button type="button" color="accent" class="swap" (click)="swapCurrencies()">
+                <button mat-icon-button type="button" color="accent" class="swap" (click)="swapCurrencies()" matTooltip="Swap Currencies" matTooltipPosition="above">
                     <mat-icon>compare_arrows</mat-icon>
                 </button>
 

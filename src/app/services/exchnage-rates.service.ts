@@ -3,13 +3,20 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
 
-interface Response {
+export interface RatesRes {
   rates: any;
   base?: string;
   date?: string;
   start_at?: string;
   end_at?: string;
   error?: any;
+}
+
+export interface RatesReq {
+  base?: string;
+  symbols?: string;
+  start_at?: string;
+  end_at?: string;
 }
 
 @Injectable({
@@ -41,7 +48,7 @@ export class ExchangeRatesService {
     this.loading$.next(true);
     return this.http.get(uri)
       .toPromise()
-      .then((res: Response) => {
+      .then((res: RatesRes) => {
         this.loading$.next(false);
         // console.log('%cres', 'color: green', res);
         if (res.error) {

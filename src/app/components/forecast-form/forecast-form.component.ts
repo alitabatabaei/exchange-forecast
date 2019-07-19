@@ -28,9 +28,8 @@ export class ForecastFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder
-  ) {
-  }
-  
+  ) { }
+
   ngOnInit() {
     this.crForm = this.fb.group(this.inputs);
     if (this.currencies) {

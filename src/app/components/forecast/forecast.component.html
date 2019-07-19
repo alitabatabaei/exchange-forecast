@@ -9,6 +9,9 @@
         <exf-forecast-form [currencies]="currencies" (submitForm)="getRates($event)"></exf-forecast-form>
     </section>
     <section>
-        CHART
+        <h2 *ngIf="target">
+            <small>Today's value in {{target.currency.name}}s</small><br>
+            {{target.amount | mask: 'comma_separator'}} <small>{{target.currency.symbol}}</small>
+        </h2>
     </section>
 </div><!-- /.row -->
