@@ -1,41 +1,56 @@
-<mat-card [formGroup]="crForm">
-    <mat-card-title>Exchange Form</mat-card-title>
-    <mat-card-content>
+<form [formGroup]="crForm" (submit)="submit()" class="forecast-form">
+    <mat-card>
+        <!-- <mat-card-title>Exchange Form</mat-card-title> -->
+        <mat-card-content>
 
-        <mat-form-field color="accent">
-            <mat-label>Amount</mat-label>
-            <input matInput type="number" formControlName="amount">
-        </mat-form-field>
+            <p class="mat-h2">How much <u>money</u> do you have?</p>
 
-        <mat-form-field color="accent">
-            <mat-label for="">From</mat-label>
-            <mat-select appearance="outline" formControlName="base">
-                <mat-option *ngFor="let currency of currencies" [value]="currency">
-                    {{currency}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field color="accent" appearance="outline">
+                <mat-label>
+                    Amount
+                    <sup>({{crForm.get('base').value.code}})</sup>
+                </mat-label>
+                <input matInput type="text" formControlName="amount" mask="comma_separator.2" [suffix]="' ' + crForm.get('base').value.symbol">
+            </mat-form-field>
 
-        <mat-form-field color="accent">
-            <mat-label for="">To</mat-label>
-            <mat-select appearance="outline" multiple formControlName="symbols">
-                <mat-option *ngFor="let currency of currencies" [value]="currency">
-                    {{currency}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+            <div class="currencies">
+                <mat-form-field color="accent" appearance="outline">
+                    <mat-label for="">From</mat-label>
+                    <mat-select appearance="outline" formControlName="base">
+                        <mat-option *ngFor="let currency of currencies" [value]="currency" [disabled]="currency === crForm.get('symbols').value">
+                            {{currency.code}} ({{currency.symbol}})
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-        <mat-form-field color="accent">
-            <mat-label>Wait Time (weeks)</mat-label>
-            <input matInput type="number" formControlName="weeks">
-        </mat-form-field>
-        <mat-slider min="1" max="250" [value]="crForm.get('weeks').value" thumbLabel></mat-slider>
+                <button mat-icon-button type="button" color="accent" class="swap" (click)="swapCurrencies()">
+                    <mat-icon>compare_arrows</mat-icon>
+                </button>
 
-    </mat-card-content>
-    <mat-card-actions align="end">
-        <button mat-raised-button color="primary">
-            See the Future
-            <mat-icon>arrow_forward</mat-icon>
-        </button>
-    </mat-card-actions>
-</mat-card>
+                <mat-form-field color="accent" width="100" appearance="outline">
+                    <mat-label for="">To</mat-label>
+                    <mat-select appearance="outline" formControlName="symbols">
+                        <mat-option *ngFor="let currency of currencies" [value]="currency" [disabled]="currency === crForm.get('base').value">
+                            {{currency.code}} ({{currency.symbol}})
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div><!-- /.row -->
+
+            <div class="mat-h2" style="margin-bottom: 0;">How many <u>weeks</u> do you have?</div>
+
+            <mat-slider #sl min="1" max="250" (input)="setWeeks(sl.value)" [value]="crForm.get('weeks').value" thumbLabel></mat-slider>
+            <mat-form-field color="accent" appearance="outline">
+                <mat-label>Wait Time (in Weeks)</mat-label>
+                <input #wk matInput type="number" formControlName="weeks" max="250">
+            </mat-form-field>
+
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-raised-button type="submit" color="primary" [disabled]="!crForm.valid">
+                See the Future
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

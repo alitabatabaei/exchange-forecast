@@ -1,0 +1,46 @@
+.forecast-form {
+    mat-card-content {
+        display: flex;
+        flex-direction: column;
+    }
+    mat-form-field {
+        font-size: 1.2em;
+    }
+    .currencies {
+        display: flex;
+        mat-form-field {
+            flex-grow: 1;
+        }
+        button.swap {
+            font-size: 1.2em;
+            margin-top: 1em;
+        }
+        ::ng-deep .mat-form-field-infix {
+            width: 100%;
+        }
+    }
+    ::ng-deep .mat-slider-thumb-label-text {
+        font-weight: bold;
+    }
+}
+
+// removing webkit number input spinner
+input[type=number]::-webkit-inner-spin-button {
+    display: none;
+}
+
+// removing webkit autofill coloring
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px rgb(66, 66, 66) inset;
+  }
+
+  
