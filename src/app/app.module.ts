@@ -11,12 +11,14 @@ import { ForecastComponent } from './components/forecast/forecast.component';
 import { ForecastFormComponent } from './components/forecast-form/forecast-form.component';
 
 import { NgxMaskModule } from 'ngx-mask';
+import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ForecastComponent,
-    ForecastFormComponent
+    ForecastFormComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,

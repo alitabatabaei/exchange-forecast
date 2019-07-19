@@ -18,6 +18,9 @@ export class ForecastComponent implements OnInit {
 
   currencies: Array<Currency>;
   target: Cash;
+  formData;
+
+  rates: any;
 
   loading: Observable<Boolean>;
   constructor(
@@ -31,7 +34,8 @@ export class ForecastComponent implements OnInit {
   }
 
   getRates(form) {
-    // console.log('%cform received from from', 'color: purple', form);
+    console.log('%cform received from from', 'color: purple', form);
+    this.formData = form;
 
     const query: RatesReq = {
       base: form.base.code,
@@ -48,7 +52,8 @@ export class ForecastComponent implements OnInit {
     console.log('query', query);
 
     this.exRates.getRates(query).then((res: RatesRes) => {
-      console.log('historical rates: forecast component', res);
+      // console.log('historical rates: forecast component', res);
+      this.rates = res;
     });
   }
 
