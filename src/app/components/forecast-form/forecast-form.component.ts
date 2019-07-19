@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Currency } from 'src/app/currencies';
 
 @Component({
-  selector: 'exf-forcast-form',
-  templateUrl: './forcast-form.component.html',
-  styleUrls: ['./forcast-form.component.scss']
+  selector: 'exf-forecast-form',
+  templateUrl: './forecast-form.component.html',
+  styleUrls: ['./forecast-form.component.scss']
 })
-export class ForcastFormComponent implements OnInit {
+export class ForecastFormComponent implements OnInit {
 
   inputs = {
     amount: ['1000.00', [Validators.required, Validators.min(0.01)]],

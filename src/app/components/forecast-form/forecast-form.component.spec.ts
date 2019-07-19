@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForcastFormComponent } from './forcast-form.component';
+import { ForecastFormComponent } from './forecast-form.component';
 
-describe('ForcastFormComponent', () => {
-  let component: ForcastFormComponent;
-  let fixture: ComponentFixture<ForcastFormComponent>;
+describe('ForecastFormComponent', () => {
+  let component: ForecastFormComponent;
+  let fixture: ComponentFixture<ForecastFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForcastFormComponent ]
+      declarations: [ ForecastFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForcastFormComponent);
+    fixture = TestBed.createComponent(ForecastFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

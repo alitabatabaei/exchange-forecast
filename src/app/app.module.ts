@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ForecastComponent } from './components/forecast/forecast.component';
-import { ForcastFormComponent } from './components/forcast-form/forcast-form.component';
+import { ForecastFormComponent } from './components/forecast-form/forecast-form.component';
 
 import { NgxMaskModule } from 'ngx-mask';
 
@@ -16,7 +16,7 @@ import { NgxMaskModule } from 'ngx-mask';
   declarations: [
     AppComponent,
     ForecastComponent,
-    ForcastFormComponent
+    ForecastFormComponent
   ],
   imports: [
     BrowserModule,
