@@ -1,7 +1,6 @@
 import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Chart } from 'chart.js';
-import { RatesRes } from 'src/app/services/exchnage-rates.service';
-import { Currency } from 'src/app/currencies';
+// import { Currency } from 'src/app/currencies';
 
 @Component({
   selector: 'exf-chart',
@@ -14,7 +13,7 @@ export class ChartComponent implements OnChanges {
   datasetOptions = {
     borderColor: '#9C27B0',
     backgroundColor: 'rgba(105, 240, 174, .25)',
-  }
+  };
 
   @Input() data: Array<any>;
   @Input() form: any;
@@ -38,12 +37,12 @@ export class ChartComponent implements OnChanges {
     // const weekly = this.weekAverage(rates, 5);
 
     const chartData = {
-      labels: rates.map(rate => rate['date']),
+      labels: rates.map(rate => rate.date),
       datasets: [{
         ...this.datasetOptions,
-        data: rates.map(rate => rate['amount'])
+        data: rates.map(rate => rate.amount)
       }]
-    }
+    };
 
     return chartData;
   }

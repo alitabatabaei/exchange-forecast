@@ -21,7 +21,7 @@ export class ForecastFormComponent implements OnInit {
   defaults = {
     base: 'USD',
     symbols: 'EUR'
-  }
+  };
 
   @Input() currencies: Array<Currency>;
   @Output() submitForm: EventEmitter<any> = new EventEmitter();
@@ -34,9 +34,9 @@ export class ForecastFormComponent implements OnInit {
     this.crForm = this.fb.group(this.inputs);
     if (this.currencies) {
       this.crForm.patchValue({
-        'base': this.currencies.filter(curr => curr.code === this.defaults.base)[0],
-        'symbols': this.currencies.filter(curr => curr.code === this.defaults.symbols)[0]
-      })
+        base: this.currencies.filter(curr => curr.code === this.defaults.base)[0],
+        symbols: this.currencies.filter(curr => curr.code === this.defaults.symbols)[0]
+      });
     }
   }
 
@@ -45,8 +45,8 @@ export class ForecastFormComponent implements OnInit {
   }
 
   swapCurrencies() {
-    const base = this.crForm.value['base'];
-    const symbols = this.crForm.value['symbols'];
+    const base = this.crForm.value.base;
+    const symbols = this.crForm.value.symbols;
     this.crForm.get('base').setValue(symbols);
     this.crForm.get('symbols').setValue(base);
   }

@@ -20,7 +20,7 @@ export class ForecastComponent implements OnInit {
   target: Cash;
   formData;
   rates: any;
-  loading: Observable<Boolean>;
+  loading: Observable<boolean>;
   constructor(
     private exRates: ExchangeRatesService,
   ) {
@@ -57,19 +57,19 @@ export class ForecastComponent implements OnInit {
 
   formatRates(data: RatesRes, form) {
     const rates = Object.keys(data.rates).sort().map(date => {
-      const rate = {};
-      rate['date'] = date;
-      rate['amount'] = (data.rates[date][form.symbols.code] * form.amount).toFixed(2);
+      const rate: any = {};
+      rate.date = date;
+      rate.amount = (data.rates[date][form.symbols.code] * form.amount).toFixed(2);
       return rate;
     });
     return rates;
   }
 
   calcAmount(value, rate, currency): Cash {
-    return {
-      amount: Number((value * rate).toFixed(2)),
-      currency: currency
-    };
+    const cash: any = {};
+    cash.amount = Number((value * rate).toFixed(2));
+    cash.currency = currency;
+    return cash;
   }
 
 }
