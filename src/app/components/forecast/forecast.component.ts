@@ -32,7 +32,7 @@ export class ForecastComponent implements OnInit {
   }
 
   getRates(form) {
-    console.log('%cform received from from', 'color: purple', form);
+    console.log('%cform received from form', 'color: purple', form);
     this.formData = form;
 
     const query: RatesReq = {
@@ -44,8 +44,13 @@ export class ForecastComponent implements OnInit {
       this.target = this.calcAmount(form.amount, res.rates[form.symbols.code], form.symbols);
     });
 
-    query.start_at = moment().subtract(form.weeks, 'week').format('YYYY-MM-DD');
-    query.end_at = moment().format('YYYY-MM-DD');
+    // now in European Central bank
+    const now = moment().utc().add(1, 'hour');
+
+    query.end_at = now.format('YYYY-MM-DD');
+    query.start_at = now
+      .subtract((Number(form.weeks) * 7) - 1, 'days')
+      .format('YYYY-MM-DD');
 
     console.log('query', query);
 
@@ -56,12 +61,17 @@ export class ForecastComponent implements OnInit {
   }
 
   formatRates(data: RatesRes, form) {
-    const rates = Object.keys(data.rates).sort().map(date => {
-      const rate: any = {};
-      rate.date = date;
-      rate.amount = (data.rates[date][form.symbols.code] * form.amount).toFixed(2);
-      return rate;
-    });
+    const rates = Object.keys(data.rates)
+      .sort((a, b) => a < b ? 1 : -1)
+      .map(date => {
+        const rate: any = {};
+        rate.date = date;
+        rate.amount = (data.rates[date][form.symbols.code] * form.amount).toFixed(2);
+        return rate;
+      })
+      .filter((rate, i, arr) => new Date(rate.date).getDay() === new Date(arr[0].date).getDay())
+      .reverse();
+    console.log('%cformatRates(data: RatesRes, form)', 'color: yellowgreen', rates);
     return rates;
   }
 
