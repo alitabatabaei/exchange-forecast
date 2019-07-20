@@ -19,9 +19,7 @@ export class ForecastComponent implements OnInit {
   currencies: Array<Currency>;
   target: Cash;
   formData;
-
   rates: any;
-
   loading: Observable<Boolean>;
   constructor(
     private exRates: ExchangeRatesService,
@@ -53,8 +51,18 @@ export class ForecastComponent implements OnInit {
 
     this.exRates.getRates(query).then((res: RatesRes) => {
       // console.log('historical rates: forecast component', res);
-      this.rates = res;
+      this.rates = this.formatRates(res, form);
     });
+  }
+
+  formatRates(data: RatesRes, form) {
+    const rates = Object.keys(data.rates).sort().map(date => {
+      const rate = {};
+      rate['date'] = date;
+      rate['amount'] = (data.rates[date][form.symbols.code] * form.amount).toFixed(2);
+      return rate;
+    });
+    return rates;
   }
 
   calcAmount(value, rate, currency): Cash {

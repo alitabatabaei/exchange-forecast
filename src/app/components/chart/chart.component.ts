@@ -16,7 +16,7 @@ export class ChartComponent implements OnChanges {
     backgroundColor: 'rgba(105, 240, 174, .25)',
   }
 
-  @Input() data: RatesRes;
+  @Input() data: Array<any>;
   @Input() form: any;
   constructor() { }
 
@@ -34,15 +34,7 @@ export class ChartComponent implements OnChanges {
     // this.getChartData(this.config);
   }
 
-  compileSets(data) {
-    const rates = Object.keys(this.data.rates).sort().map(date => {
-      const rate = {};
-      rate['date'] = date;
-      rate['amount'] = (data.rates[date][this.form.symbols.code] * this.form.amount).toFixed(2);
-      return rate;
-    });
-    console.log("====RATES", rates);
-
+  compileSets(rates) {
     // const weekly = this.weekAverage(rates, 5);
 
     const chartData = {
