@@ -3,6 +3,7 @@ import { ExchangeRatesService, RatesReq, RatesRes } from 'src/app/services/exchn
 import { Observable } from 'rxjs';
 import { Currency, Currencies } from '../../currencies';
 import * as moment from 'moment';
+import * as zodiac from 'zodiac-ts';
 
 interface Cash {
   amount: number;
@@ -20,9 +21,10 @@ export class ForecastComponent implements OnInit {
   target: Cash;
   formData;
   rates: any;
+
   loading: Observable<boolean>;
   constructor(
-    private exRates: ExchangeRatesService,
+    private exRates: ExchangeRatesService
   ) {
     this.loading = exRates.isLoading$;
     this.currencies = Currencies;
@@ -55,8 +57,11 @@ export class ForecastComponent implements OnInit {
     console.log('query', query);
 
     this.exRates.getRates(query).then((res: RatesRes) => {
+      this.rates = {};
       // console.log('historical rates: forecast component', res);
-      this.rates = this.formatRates(res, form);
+      const rates = this.formatRates(res, form);
+      this.rates.histoy = rates;
+      this.rates.DES = this.predict(rates);
     });
   }
 
@@ -69,7 +74,7 @@ export class ForecastComponent implements OnInit {
         rate.amount = (data.rates[date][form.symbols.code] * form.amount).toFixed(2);
         return rate;
       })
-      .filter((rate, i, arr) => new Date(rate.date).getDay() === new Date(arr[0].date).getDay())
+      // .filter((rate, i, arr) => new Date(rate.date).getDay() === new Date(arr[0].date).getDay())
       .reverse();
     console.log('%cformatRates(data: RatesRes, form)', 'color: yellowgreen', rates);
     return rates;
@@ -80,6 +85,30 @@ export class ForecastComponent implements OnInit {
     cash.amount = Number((value * rate).toFixed(2));
     cash.currency = currency;
     return cash;
+  }
+
+  predict(rates) {
+    console.log(rates);
+    const values = rates.map(rate => Number(rate.amount));
+    console.log(values);
+
+    const lastDate = moment(rates[rates.length - 1].date);
+    console.log(lastDate.format('YYYY-MM-DD'));
+
+    const data = values;
+    const alpha = 0.4;
+
+    const des = new zodiac.DoubleExponentialSmoothing(data, alpha);
+    const forecast = des.predict(3);
+    console.log('forecast values', forecast);
+    const result = forecast.slice(2).map((value, i, arr) => {
+      const rate: any = {};
+      rate.amount = value.toFixed(2);
+      rate.date = lastDate.add(1, 'week').format('YYYY-MM-DD');
+      return rate;
+    });
+    console.log('forecast rates', result);
+    return result;
   }
 
 }

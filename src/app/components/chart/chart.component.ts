@@ -34,24 +34,35 @@ export class ChartComponent implements OnChanges {
   }
 
   compileSets(rates) {
-    // const weekly = this.weekAverage(rates, 5);
+    // console.log('rates', rates);
 
-    const chartData = {
-      labels: rates.map(rate => rate.date),
-      datasets: [{
-        ...this.datasetOptions,
-        data: rates.map(rate => rate.amount)
-      }]
-    };
+    let dates = [];
+    const datasets = [];
+    Object.keys(rates).forEach(key => {
+      // console.log(rates[key].map(r => r.date));
+      dates = dates.concat(rates[key].map(r => r.date));
+      // console.log('key', key, 'dates', dates);
+    });
+
+    Object.keys(rates).forEach(key => {
+      datasets.push({
+        label: key,
+        data: dates.map(date => {
+          const value = rates[key].find(r => r.date === date);
+          return value ? value.amount : null;
+        })
+      });
+    });
+
+    // console.log('%cdates', 'color: pink', dates);
+    // console.log('%cdatasets', 'color: pink', datasets);
+
+    const chartData: any = {};
+    chartData.labels = dates;
+    chartData.datasets = datasets;
 
     return chartData;
   }
-
-  // weekAverage(arr, n) {
-  //   arr.map((item, i) => {
-  //     console.log(i, item);
-  //   })
-  // }
 
   drawChart(data) {
     this.chart = new Chart('chart-canvas', {
