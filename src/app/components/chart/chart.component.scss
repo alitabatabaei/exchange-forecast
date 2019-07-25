@@ -1,5 +1,11 @@
 .chart {
+    .wrapper {
+        background-color: #eee;
+        height: calc(100% - 1rem);
+        padding: 1rem .25rem 0 .5rem;
+    }
     // border: 1px solid blue;
     width: calc(100% - 1px);
-    min-height: 500px;
+    // min-height: 500px;
+    height: 100%;
 }

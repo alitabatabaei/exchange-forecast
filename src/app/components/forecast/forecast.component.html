@@ -11,9 +11,9 @@
     <section>
         <exf-chart *ngIf="rates && formData" [data]="rates" [form]="formData"></exf-chart>
 
-        <h2 *ngIf="target">
-            <small>Today's value in {{target.currency.name}}s</small><br>
-            {{target.currency.symbol}}{{target.amount | mask: 'comma_separator'}}
-        </h2>
     </section>
 </div><!-- /.row -->
+<h2 *ngIf="target">
+    <small>Today's value in {{target.currency.name}}s</small><br>
+    {{target.currency.symbol}}{{target.amount | mask: 'comma_separator'}}
+</h2>

@@ -16,9 +16,12 @@ mat-progress-bar {
         // flex-basis: 0;
         > *:first-child {
             flex-shrink: 0;
+            // border: 1px solid red;
         }
         > *:last-child {
             flex-grow: 1;
+            padding-left: 0;
+            // border: 1px solid blue;
         }
     }
 }
