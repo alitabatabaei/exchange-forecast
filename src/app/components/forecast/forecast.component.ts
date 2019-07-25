@@ -60,8 +60,8 @@ export class ForecastComponent implements OnInit {
       this.rates = {};
       // console.log('historical rates: forecast component', res);
       const rates = this.formatRates(res, form);
-      this.rates.histoy = rates;
-      this.rates.DES = this.predict(rates);
+      this.rates.forecast = this.predict(rates);
+      this.rates.history = rates;
     });
   }
 
@@ -91,20 +91,26 @@ export class ForecastComponent implements OnInit {
     console.log(rates);
     const values = rates.map(rate => Number(rate.amount));
     console.log(values);
+    const forecastLength = 10; // rates.length;
 
     const lastDate = moment(rates[rates.length - 1].date);
     console.log(lastDate.format('YYYY-MM-DD'));
 
     const data = values;
     const alpha = 0.4;
+    // const gamma = 0.9;
+    // const delta = 0;
+    // const seasonLength = 0;
+    // const mult = 0;
 
     const des = new zodiac.DoubleExponentialSmoothing(data, alpha);
-    const forecast = des.predict(3);
+    const forecast = des.predict(forecastLength).slice(1);
     console.log('forecast values', forecast);
-    const result = forecast.slice(2).map((value, i, arr) => {
+    const result = forecast.map((value, i) => {
       const rate: any = {};
-      rate.amount = value.toFixed(2);
-      rate.date = lastDate.add(1, 'week').format('YYYY-MM-DD');
+      rate.amount = value ? value.toFixed(2) : null;
+      // rate.date = lastDate.add(1, 'day').format('YYYY-MM-DD');
+      rate.date = rates[i] ? rates[i].date : lastDate.add(1, 'day').format('YYYY-MM-DD');
       return rate;
     });
     console.log('forecast rates', result);

@@ -10,9 +10,17 @@ import { Chart } from 'chart.js';
 export class ChartComponent implements OnChanges {
 
   chart: Chart;
-  datasetOptions = {
-    borderColor: '#9C27B0',
-    backgroundColor: 'rgba(105, 240, 174, .25)',
+  theme = {
+    history: {
+      borderColor: 'rgba(156, 39, 176, .75)',
+      backgroundColor: 'rgba(156, 39, 176, .1)',
+      borderWidth: 2
+    },
+    forecast: {
+      borderColor: 'rgba(3, 218, 197, .5)',
+      backgroundColor: 'rgba(3, 218, 197, .1)',
+      borderWidth: 1
+    }
   };
 
   @Input() data: Array<any>;
@@ -34,18 +42,14 @@ export class ChartComponent implements OnChanges {
   }
 
   compileSets(rates) {
-    // console.log('rates', rates);
+    console.log('rates', rates);
 
-    let dates = [];
+    const dates = rates.forecast.map(r => r.date);
     const datasets = [];
-    Object.keys(rates).forEach(key => {
-      // console.log(rates[key].map(r => r.date));
-      dates = dates.concat(rates[key].map(r => r.date));
-      // console.log('key', key, 'dates', dates);
-    });
 
     Object.keys(rates).forEach(key => {
       datasets.push({
+        ...this.theme[key],
         label: key,
         data: dates.map(date => {
           const value = rates[key].find(r => r.date === date);
@@ -55,7 +59,7 @@ export class ChartComponent implements OnChanges {
     });
 
     // console.log('%cdates', 'color: pink', dates);
-    // console.log('%cdatasets', 'color: pink', datasets);
+    console.log('%cdatasets', 'color: pink', datasets);
 
     const chartData: any = {};
     chartData.labels = dates;
@@ -83,7 +87,7 @@ export class ChartComponent implements OnChanges {
       responsive: true,
       maintainAspectRatio: false,
       legend: {
-        display: false,
+        display: true,
       },
       layout: {
         padding: 0,
@@ -101,10 +105,18 @@ export class ChartComponent implements OnChanges {
         intersect: false
       },
       scales: {
+        xAxes: [{
+          ticks: {
+            // minRotation: 0,
+            callback: (v) => {
+              return v
+              // .slice(2)
+              // .replace(/\-0/g, '/')
+              .replace(/-/g, '/');
+            }
+          }
+        }],
         yAxes: [{
-          scaleLabel: {
-            display: false
-          },
           ticks: {
             callback: (v) => {
               return v + this.form.symbols.symbol;
