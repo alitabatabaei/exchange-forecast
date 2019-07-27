@@ -1,4 +1,4 @@
-// calculate season length (S)
+// calculate season length
 const season = (length) => {
     let s = 1;
     if (length > 15) { s = 5; }
@@ -22,7 +22,7 @@ const season = (length) => {
 // calculate level (L)
 // = alpha * (Val(t) / S(t-m)) + (1-alpha) * (L(t-1) + T(t-1))
 const L = (alpha, v, sPM, lP, tP) => {
-    return (alpha * (v * sPM) + (1 - alpha) * (lP + tP));
+    return (alpha * (v / sPM) + (1 - alpha) * (lP + tP));
 };
 // calculate trend (T)
 // = beta * (L(t) - L(t-1)) + (1-beta) * T(t-1)
@@ -32,12 +32,12 @@ const T = (beta, l, Lp, tP) => {
 // calculate seasonal (S)
 // = gamma \* Val<sub>(t)</sub> / L(t) + (1 - gamma) \* S(t-m)
 const S = (gamma, v, l, sPM) => {
-    return gamma * (v / l) + (1 - gamma) * sPM;
+    return (gamma * (v / l) + (1 - gamma) * sPM);
 };
 // calculate forecaste (F)
-// = (L(t-1) + T(t-1) * S(t-m)
+// = ( L(t-1) + T(t-1) ) * S(t-m+k)
 const F = (l, k, t, sPMK) => {
-    return (l + k * t) * sPMK;
+    return (l + (k * t)) * sPMK;
 };
 
 // simple array sum reducer
