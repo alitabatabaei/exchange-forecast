@@ -53,6 +53,8 @@
 - Methods:
     - getRates
 
+**HoltWinters**
+
 **Exchange form**
 - @output: request
 

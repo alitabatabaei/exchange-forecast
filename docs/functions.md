@@ -21,9 +21,9 @@
 * **level _"L"_**
 	= alpha \* (Val(t) / S(t-m)) + (1-alpha) \* (L(t-1) + T(t-1))
 * **trend _"T"_**
-	= beta * (L(t) - L(t-1)) + (1-beta) * T(t-1) 
+	= beta * (L(t) - L(t-1)) + (1-beta) * T(t-1)
 * **forecast(F) _tm+2_**
-	= (L(t-1) + T(t-1) * S(t-m): corresponding seasonal from perv season
+	= (L(t-1) + T(t-1) * S(t-m): _corresponding seasonal from perv season_
 
 
 ## Optimization
