@@ -1,16 +1,7 @@
 // calculate season length
 const season = (length) => {
-    let s = 1;
-    if (length > 15) { s = 5; }
-    if (length > 90) { s = 30; }
-    if (length > 270) { s = 90; }
-    if (length > 540) { s = 180; }
-    if (length > 1080) { s = 360; }
 
-    // const n = 4;
-    // const s = Math.floor(length / n);
-
-    return s;
+    return Math.floor(length / 1.4);;
 };
 
 
@@ -41,14 +32,17 @@ const S = (gamma, v, l, sPM) => {
 // forecast (F) Formula
 // = ( L(t-1) + T(t-1) ) * S(t-m+k)
 const F = (l, k, t, sPMK) => {
-    // console.log('l', l, 'k', k, 't', t, 'sPMK', sPMK);
-    return (l + (k * t)) * sPMK;
+    const FR = (l + (k * t)) * sPMK;
+    // if (FR < 0) {
+    //     console.log('l', l);
+    //     console.log('k', k);;
+    //     console.log('t', t);;
+    //     console.log('sPMK', sPMK);;
+    // }
+    return FR.toFixed(2);
 };
 
-// parameters optimization
-const O = () => {};
-
-const forecast = (data, p) => {
+const forecast = (data, p) => { // date: rates, p: parameters (alpha, beta, gamma)
     const m = season(data.length);
     // console.log('m', m);
 
@@ -125,24 +119,18 @@ const predict = (lS, pL) => { // lS: last-season, pL: prediction-length
 const sum = (acc, cur) => acc + cur;
 
 const HW = (data) => {
-    console.log('historical ex-rates', data);
+    // console.log('historical ex-rates', data);
     const p = {
         alpha: .9,
-        beta: .09,
-        gamma: .09,
+        beta: .02,
+        gamma: .9,
     };
-    console.log(p);
+    // console.log(p);
 
     const a = forecast(data, p);
-    const errors = a.filter(r => r.forecast).map(rf => (rf.amount - rf.forecast));
-    console.log('%cerrors', 'color: red', errors);
-    const RMSE = errors.map(e => e * e).reduce(sum);
-    console.log('%cRMSE', 'color: red', RMSE);
-
     const m = season(data.length);
     const predictions = predict(a.slice(-m), a.length);
 
-    window.alert(RMSE);
 
     return a.concat(predictions).map(f => {
         const rate: any = {};

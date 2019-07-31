@@ -53,7 +53,7 @@ export class ForecastFormComponent implements OnInit {
 
   submit() {
     const queries = this.crForm.value;
-    console.log(queries);
+    // console.log(queries);
     this.submitForm.emit(queries);
   }
 

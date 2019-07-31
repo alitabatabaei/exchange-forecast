@@ -43,6 +43,11 @@
             <mat-form-field color="accent" appearance="outline">
                 <mat-label>Wait Time (in Weeks)</mat-label>
                 <input #wk matInput type="number" formControlName="weeks" max="250">
+
+                <mat-error *ngIf=" (crForm.get('weeks').dirty || crForm.get('weeks').touched)">
+                    <ng-container *ngIf="crForm.get('weeks').value < 1">At least 1 week</ng-container>
+                    <ng-container *ngIf="crForm.get('weeks').value > 250">No more than 250 weeks</ng-container>
+                </mat-error>
             </mat-form-field>
 
         </mat-card-content>

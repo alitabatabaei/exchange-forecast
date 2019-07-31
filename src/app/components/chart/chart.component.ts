@@ -22,6 +22,7 @@ export class ChartComponent implements OnChanges {
       borderWidth: 1
     }
   };
+  chartDrawn = false;
 
   @Input() data: Array<any>;
   @Input() form: any;
@@ -29,9 +30,9 @@ export class ChartComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // console.log('%cchanges---------------', 'color: blue;', changes);
-    console.log('ngOnChanges', this.data);
-    console.log('ngOnChanges', this.form);
-    console.log('%cchanges', 'color: yellow', changes);
+    // console.log('ngOnChanges', this.data);
+    // console.log('ngOnChanges', this.form);
+    // console.log('%cchanges', 'color: yellow', changes);
     if (changes.data && changes.data.firstChange) {
       this.drawChart(this.data);
     } else if (changes.data && !changes.data.firstChange) {
@@ -42,7 +43,7 @@ export class ChartComponent implements OnChanges {
   }
 
   compileSets(rates) {
-    console.log('rates', rates);
+    // console.log('rates', rates);
 
     const dates = rates.forecast.map(r => r.date);
     const datasets = [];
@@ -59,7 +60,7 @@ export class ChartComponent implements OnChanges {
     });
 
     // console.log('%cdates', 'color: pink', dates);
-    console.log('%cdatasets', 'color: pink', datasets);
+    // console.log('%cdatasets', 'color: pink', datasets);
 
     const chartData: any = {};
     chartData.labels = dates;
@@ -74,7 +75,7 @@ export class ChartComponent implements OnChanges {
       data: this.compileSets(data),
       options: this.setOptions(),
     });
-    console.log(this.chart);
+    // console.log(this.chart);
   }
 
   updateChart(data) {
@@ -97,35 +98,35 @@ export class ChartComponent implements OnChanges {
           tension: 0
         },
         point: {
-          radius: 0,
-        }
-      },
-      tooltips: {
-        mode: 'index',
-        intersect: false
-      },
-      scales: {
-        xAxes: [{
-          ticks: {
-            // minRotation: 0,
-            callback: (v) => {
-              return v
+        radius: 0
+      }
+    },
+    tooltips: {
+      mode: 'index',
+      intersect: false
+    },
+    scales: {
+      xAxes: [{
+        ticks: {
+          // minRotation: 0,
+          callback: (v) => {
+            return v
               // .slice(2)
               // .replace(/\-0/g, '/')
               .replace(/-/g, '/');
-            }
           }
-        }],
-        yAxes: [{
-          ticks: {
-            callback: (v) => {
-              return v + this.form.symbols.symbol;
-            }
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          callback: (v) => {
+            return v + this.form.symbols.symbol;
           }
-        }],
-      }
-    };
+        }
+      }],
+    }
+  };
 
-    return options;
-  }
+  return options;
+}
 }

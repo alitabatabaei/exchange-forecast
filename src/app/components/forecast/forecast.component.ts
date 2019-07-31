@@ -35,7 +35,7 @@ export class ForecastComponent implements OnInit {
   }
 
   getRates(form) {
-    console.log('%cform received from form', 'color: purple', form);
+    // console.log('%cform received from form', 'color: purple', form);
     this.formData = form;
 
     const query: RatesReq = {
@@ -55,7 +55,7 @@ export class ForecastComponent implements OnInit {
       .subtract((Number(form.weeks) * 7) - 1, 'days')
       .format('YYYY-MM-DD');
 
-    console.log('query', query);
+    // console.log('query', query);
 
     this.exRates.getRates(query).then((res: RatesRes) => {
       this.rates = {};
