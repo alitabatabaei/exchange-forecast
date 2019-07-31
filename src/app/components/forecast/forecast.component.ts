@@ -26,6 +26,7 @@ export class ForecastComponent implements OnInit {
   bestBet: {
     amount: Cash;
     date: string;
+    formatedDate: string;
   };
 
   loading: Observable<boolean>;
@@ -77,7 +78,7 @@ export class ForecastComponent implements OnInit {
         .reduce((a, b) => {
           return a.amount >= b.amount ? a : b;
         });
-      this.bestBet.date = moment(this.bestBet.date).format('dddd, MMMM Do YYYY');
+      this.bestBet.formatedDate = moment(this.bestBet.date).format('dddd, MMMM Do YYYY');
     });
   }
 

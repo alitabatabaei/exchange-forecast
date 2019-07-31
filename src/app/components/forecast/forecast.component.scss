@@ -31,6 +31,20 @@ mat-progress-bar {
     }
 }
 
+.results {
+    // border: 1px solid red;
+    font-size: 1.2em;
+    display: flex;
+    > * {
+        // border: 1px solid blue;
+        padding: 0 1rem 1rem;
+        flex-grow: 1;
+    }
+    .best-bet {
+        text-align: right;
+    }
+}
+
 @media all and (min-width: 40rem) {
     .row {
         display: flex;
