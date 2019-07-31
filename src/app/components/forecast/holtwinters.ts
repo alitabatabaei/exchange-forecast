@@ -1,7 +1,9 @@
+import * as moment from 'moment';
+
 // calculate season length
 const season = (length) => {
 
-    return Math.floor(length / 1.4);;
+    return Math.floor(length / 1.4);
 };
 
 
@@ -39,7 +41,7 @@ const F = (l, k, t, sPMK) => {
     //     console.log('t', t);;
     //     console.log('sPMK', sPMK);;
     // }
-    return FR.toFixed(2);
+    return Math.round(FR * 100) / 100;
 };
 
 const forecast = (data, p) => { // date: rates, p: parameters (alpha, beta, gamma)
@@ -75,7 +77,7 @@ const forecast = (data, p) => { // date: rates, p: parameters (alpha, beta, gamm
 
                 // current period's forecast
                 const f = (lp + tp) * spm;
-                r.forecast = Number(f.toFixed(2));
+                r.forecast = Math.round(f * 100) / 100;
             }
 
             // seasonals (now that we have "level" of all following periods)
@@ -101,13 +103,18 @@ const predict = (lS, pL) => { // lS: last-season, pL: prediction-length
     // console.log('lL', lL);
     // console.log('lT', lT);
 
+    let lastDate = moment(lS[I].date);
     for (let i = 1; i <= pL; i++) {
-        const k = (i - 1) % m + 1;
+        const k = (i - 1) % m + 1; // generating season period loops (1 through 'm: season length' then restart from 1)
         const seasonal = lS[I - m + k].seasonal;
         // console.log('I - m + k', I - m + k);
         const result: any = {};
-        result.date = lS[I].date + k;
+
+        const offset = lastDate.get('day') === 5 ? 3 : 1; // skipping weekends
+        lastDate = lastDate.add(offset, 'days');
+        result.date = lastDate.format('YYYY-MM-DD');
         result.forecast = F(lL, k, lT, seasonal);
+
         results.push(result);
     }
 
