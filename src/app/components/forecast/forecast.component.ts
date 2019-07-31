@@ -23,6 +23,11 @@ export class ForecastComponent implements OnInit {
   rates: any;
   holtwinters = HW;
 
+  bestBet: {
+    amount: Cash;
+    date: string;
+  };
+
   loading: Observable<boolean>;
   constructor(
     private exRates: ExchangeRatesService
@@ -61,9 +66,18 @@ export class ForecastComponent implements OnInit {
           amount: rates[rates.length - 1].amount,
           currency: form.symbols
       };
+      const forecast = this.holtwinters(rates);
 
-      this.rates.forecast = this.holtwinters(rates);
+      this.rates.forecast = forecast;
       this.rates.history = rates;
+
+      console.log('forecast', forecast);
+      this.bestBet = forecast
+        .filter(f => f.amount)
+        .reduce((a, b) => {
+          return a.amount >= b.amount ? a : b;
+        });
+      this.bestBet.date = moment(this.bestBet.date).format('dddd, MMMM Do YYYY');
     });
   }
 

@@ -13,7 +13,12 @@
         <mat-spinner *ngIf="loading | async" color="accent" diameter="50"></mat-spinner>
     </section>
 </div><!-- /.row -->
-<h2 *ngIf="target">
+<p *ngIf="target">
     <small>Today's value in {{target.currency.name}}s</small><br>
     {{target.currency.symbol}}{{target.amount | mask: 'comma_separator'}}
-</h2>
+</p>
+<p *ngIf="bestBet">
+    <small>Your best bet is:</small><br>
+    {{bestBet.date}}<br>
+    Your {{formData.amount}} {{formData.base.name}} would be {{bestBet.amount}} {{target.currency.name}}
+</p>
