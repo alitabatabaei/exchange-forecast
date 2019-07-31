@@ -43,10 +43,6 @@ export class ForecastComponent implements OnInit {
       symbols: form.symbols.code
     };
 
-    this.exRates.getRates(query, 'latest').then((res: RatesRes) => {
-      this.target = this.calcAmount(form.amount, res.rates[form.symbols.code], form.symbols);
-    });
-
     // now in European Central bank
     const now = moment().utc().add(1, 'hour');
 
@@ -61,6 +57,11 @@ export class ForecastComponent implements OnInit {
       this.rates = {};
       // console.log('historical rates: forecast component', res);
       const rates = this.formatRates(res, form);
+      this.target = {
+          amount: rates[rates.length - 1].amount,
+          currency: form.symbols
+      };
+
       this.rates.forecast = this.holtwinters(rates);
       this.rates.history = rates;
     });
@@ -75,16 +76,8 @@ export class ForecastComponent implements OnInit {
         rate.amount = (data.rates[date][form.symbols.code] * form.amount).toFixed(2);
         return rate;
       })
-      // .filter((rate, i, arr) => new Date(rate.date).getDay() === new Date(arr[0].date).getDay())
       .reverse();
     return rates;
-  }
-
-  calcAmount(value, rate, currency): Cash {
-    const cash: any = {};
-    cash.amount = Number((value * rate).toFixed(2));
-    cash.currency = currency;
-    return cash;
   }
 
 }

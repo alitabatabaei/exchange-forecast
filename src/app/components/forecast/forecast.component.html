@@ -8,9 +8,9 @@
     <section>
         <exf-forecast-form [currencies]="currencies" (submitForm)="getRates($event)"></exf-forecast-form>
     </section>
-    <section>
+    <section class="chart-wrapper" [ngClass]="{'updating': (loading | async)}">
         <exf-chart *ngIf="rates && formData" [data]="rates" [form]="formData"></exf-chart>
-
+        <mat-spinner *ngIf="loading | async" color="accent" diameter="50"></mat-spinner>
     </section>
 </div><!-- /.row -->
 <h2 *ngIf="target">

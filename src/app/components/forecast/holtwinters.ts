@@ -2,9 +2,11 @@ import * as moment from 'moment';
 
 // calculate season length
 const season = (length) => {
-
     return Math.floor(length / 1.4);
 };
+
+// simple array sum reducer
+const sum = (acc, cur) => acc + cur;
 
 
 // ================= //
@@ -122,9 +124,6 @@ const predict = (lS, pL) => { // lS: last-season, pL: prediction-length
     return results;
 };
 
-// simple array sum reducer
-const sum = (acc, cur) => acc + cur;
-
 const HW = (data) => {
     // console.log('historical ex-rates', data);
     const p = {
@@ -138,14 +137,15 @@ const HW = (data) => {
     const m = season(data.length);
     const predictions = predict(a.slice(-m), a.length);
 
-
-    return a.concat(predictions).map(f => {
+    const h = a.concat(predictions).map(f => {
         const rate: any = {};
         rate.date = f.date;
         rate.amount = f.forecast ? Number(f.forecast) : null;
 
         return rate;
     });
+
+    return h;
 };
 
 export { HW };
